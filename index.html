@@ -132,9 +132,26 @@ section.block{padding-block:80px}
 .case button{margin-top:auto;align-self:flex-start;font:700 .88rem var(--f-body);background:none;border:0;padding:6px 0;cursor:pointer;color:var(--text);text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--g4)}
 
 /* Processo */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid #26262b}
-.step{padding:24px 24px 8px 0;display:grid;gap:8px;align-content:start}
-.step .n{font-family:var(--f-mono);font-size:.8rem;color:var(--on-ink-muted)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative;--p:0}
+.step{padding:0 8px 0 0;display:grid;gap:8px;align-content:start;position:relative}
+.step .n{font-family:var(--f-mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--on-ink-muted)}
+.dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:600 1rem var(--f-mono);color:var(--on-ink-muted);background:var(--ink);border:2px solid #34343a;position:relative;z-index:1;margin-bottom:10px;transition:color .4s,border-color .4s,background .4s}
+.step.on .dot{color:var(--on-ink);border-color:transparent;background:linear-gradient(var(--ink),var(--ink)) padding-box,var(--grad) border-box}
+.step.s1 .dot,.step.s1.on .dot{color:#000;border-color:transparent;background:var(--grad)}
+.step.s1 .dot::after{content:"";position:absolute;inset:-2px;border-radius:50%;box-shadow:0 0 0 0 rgba(233,72,143,.55);animation:ping 2.2s ease-out infinite}
+@keyframes ping{to{box-shadow:0 0 0 14px rgba(233,72,143,0)}}
+.track{position:absolute;left:22px;right:calc((100% - 72px)/4 - 22px);top:21px;height:2px;background:#26262b;border-radius:2px;overflow:hidden}
+.track i{position:absolute;inset:0;background:var(--grad);transform:scaleX(var(--p));transform-origin:left;transition:transform .15s linear}
+.bridge{position:relative;display:inline-block;margin-top:40px;padding-top:56px;text-decoration:none}
+.bridge::before{content:"";position:absolute;left:21px;top:0;height:56px;width:2px;background:linear-gradient(#34343a,var(--g4))}
+.bridge::after{content:"";position:absolute;left:21px;top:100%;height:80px;width:2px;background:linear-gradient(var(--g4),var(--g5))}
+.bt{display:inline-flex;gap:10px;align-items:center;padding:12px 20px;border-radius:999px;color:var(--on-ink);font-weight:600;border:2px solid transparent;background:linear-gradient(var(--ink),var(--ink)) padding-box,var(--grad) border-box;transition:transform .2s,box-shadow .3s}
+.bt b{display:inline-block;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(4px)}}
+.bridge:hover .bt{transform:translateY(-1px);box-shadow:0 8px 28px rgba(233,72,143,.3)}
+#pedido .quote{position:relative}
+#pedido .quote::before{content:"";position:absolute;left:calc(max(16px,env(safe-area-inset-left,0px)) + 21px);top:-80px;height:64px;width:2px;background:linear-gradient(var(--g5),var(--g1))}
+[id]{scroll-margin-top:72px}
 .step p{color:var(--on-ink-muted);font-size:.93rem}
 .step h3{color:var(--on-ink)}
 
@@ -210,12 +227,18 @@ footer .line{height:3px;border-radius:3px;background:var(--grad);margin-top:40px
   .lk-word{width:min(240px,70%)}
   .paths,.grid{grid-template-columns:1fr 1fr}
   .shop{grid-template-columns:1fr 1fr}
-  .steps{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr;gap:28px}
+  .step{padding-left:64px}
+  .dot{position:absolute;left:0;top:-12px;margin:0}
+  .track{left:21px;right:auto;width:2px;height:auto;top:22px;bottom:22px}
+  .track i{transform:scaleY(var(--p));transform-origin:top}
   .quote aside{position:static}
   .foot{grid-template-columns:1fr 1fr}
 }
 @media (max-width:600px){
   .paths,.grid,.row,.types,.steps,.foot{grid-template-columns:1fr}
+  .bridge::after{height:56px}
+  #pedido .quote::before{top:-56px;height:44px}
   nav{margin-left:0;width:100%;overflow-x:auto;flex-wrap:nowrap}
   nav a{white-space:nowrap;padding:8px 7px;font-size:.84rem}
   nav{gap:2px}
@@ -265,7 +288,7 @@ footer .line{height:3px;border-radius:3px;background:var(--grad);margin-top:40px
 @keyframes rise{from{clip-path:inset(100% 0 0 0);transform:translateY(14px)}to{clip-path:inset(0 0 0 0);transform:none}}
 nav a{transition:color .2s,background .2s}
 footer .line{background-size:200% 100%;animation:shine 6s ease-in-out infinite alternate}
-@media (prefers-reduced-motion:reduce){.reveal.pre{clip-path:none;transform:none;opacity:1}.enter{animation:none}}
+@media (prefers-reduced-motion:reduce){.steps{--p:1!important}.reveal.pre{clip-path:none;transform:none;opacity:1}.enter{animation:none}}
 .case .media{position:relative;aspect-ratio:4/5;max-width:100%;border-radius:8px;overflow:hidden;background:#0c0c0e}
 .case .media img,.case .media video{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
 .case:hover .media img,.case:hover .media video{transform:scale(1.04)}
@@ -374,7 +397,7 @@ footer .line{background-size:200% 100%;animation:shine 6s ease-in-out infinite a
     <div class="head">
       <div>
         <p class="eyebrow">Portfólio</p>
-        <h2>Projetos que saíram daqui</h2>
+        <h2>Alguns projetos que saíram daqui</h2>
         <p>Peças feitas aqui no studio. Passe o mouse sobre os cards com vídeo para ver a peça em movimento. Gostou de alguma? Use como ponto de partida para o seu pedido.</p>
       </div>
       <div class="filters" role="group" aria-label="Filtrar projetos">
@@ -389,25 +412,27 @@ footer .line{background-size:200% 100%;animation:shine 6s ease-in-out infinite a
   </div>
 </section>
 
-<section class="ink block">
+<section class="ink block" id="orcamento">
   <div class="wrap">
     <div class="head"><div>
       <p class="eyebrow">Como funciona um projeto</p>
       <h2>Da ideia à peça na sua mão</h2>
     </div></div>
     <div class="steps">
-      <div class="step"><span class="n">1 · você conta</span><h3>Ideia, foto ou arquivo</h3><p>Pelo formulário abaixo ou pelo WhatsApp. Quanto mais detalhe, mais rápido sai o orçamento.</p></div>
-      <div class="step"><span class="n">2 · a gente prepara</span><h3>Arquivo pronto para imprimir</h3><p>Buscamos um modelo existente ou modelamos do zero. Com o arquivo fatiado, sabemos material e tempo de máquina.</p></div>
-      <div class="step"><span class="n">3 · orçamento</span><h3>Preço e prazo fechados</h3><p>Você recebe o valor, o prazo de produção e as opções de cor e acabamento antes de qualquer pagamento.</p></div>
-      <div class="step"><span class="n">4 · produção</span><h3>Impressão e envio</h3><p>Imprimimos, fazemos o acabamento e enviamos para qualquer lugar do Brasil.</p></div>
+      <div class="track" aria-hidden="true"><i></i></div>
+      <div class="step s1"><span class="dot">1</span><span class="n">Você conta</span><h3>Ideia, foto ou arquivo</h3><p>Pelo formulário abaixo ou pelo WhatsApp. Quanto mais detalhe, mais rápido sai o orçamento.</p></div>
+      <div class="step"><span class="dot">2</span><span class="n">A gente prepara</span><h3>Arquivo pronto para imprimir</h3><p>Buscamos um modelo existente ou modelamos do zero. Com o arquivo fatiado, sabemos material e tempo de máquina.</p></div>
+      <div class="step"><span class="dot">3</span><span class="n">Orçamento</span><h3>Preço e prazo fechados</h3><p>Você recebe o valor, o prazo de produção e as opções de cor e acabamento antes de qualquer pagamento.</p></div>
+      <div class="step"><span class="dot">4</span><span class="n">Produção</span><h3>Impressão e envio</h3><p>Imprimimos, fazemos o acabamento e enviamos para qualquer lugar do Brasil.</p></div>
     </div>
+    <a class="bridge" href="#pedido"><span class="bt">Comece pelo passo 1: conte o que você precisa <b aria-hidden="true">↓</b></span></a>
   </div>
 </section>
 
-<section class="block" id="orcamento">
+<section class="block" id="pedido">
   <div class="wrap quote">
     <aside>
-      <p class="eyebrow">Orçamento</p>
+      <p class="eyebrow">Passo 1 · Você conta</p>
       <h2>Conte o que você precisa</h2>
       <p>O pedido chega organizado no nosso WhatsApp e respondemos por lá. Você não paga nada para pedir orçamento.</p>
       <ul>
@@ -548,7 +573,7 @@ const CASES = [
   {cat:"religiosos", m:"v-miguel", t:"São Miguel Arcanjo", d:"Imagem religiosa de São Miguel Arcanjo. As cores podem ser personalizadas pelo cliente.", tags:["religioso","alto detalhe"]},
   {cat:"personagens", m:"v-herois", t:"Action figures", d:"Conjunto de bonecos de decoração feito sob medida, com as cores que o cliente pediu.", tags:["personagens","decoração","sob medida"]},
   {cat:"presentes", m:"f-diadospais", t:"Fotos em alto-relevo", d:"Presente personalizado a partir da foto do cliente. Com a técnica HueForge, a foto vira um quadro em alto-relevo, em várias cores, com a mensagem da família.", tags:["datas comemorativas","HueForge","alto-relevo"]},
-  {cat:"empresa", m:"v-portacopos", t:"Porta-copos com monograma", d:"Jogo de porta-copos com suporte, personalizado com o monograma de uma empresa em cobre sobre preto.", tags:["empresa","personalizado","kit"]},
+  {cat:"empresa", m:"v-portacopos", t:"Itens personalizados com o seu monograma ou logo", d:"Jogo de porta-copos com suporte, personalizado com o monograma de uma empresa em cobre sobre preto.", tags:["empresa","personalizado","kit"]},
   {cat:"religiosos", m:"f-sagradocoracao", t:"Porta-terço Sagrado Coração de Jesus", d:"Imagem religiosa em acabamento perolado, com base que serve para guardar o terço.", tags:["religioso","perolado"]},
   {cat:"presentes", m:"v-luminaria", t:"Luminária texturizada", d:"Cúpula com textura em relevo que espalha a luz em camadas.", tags:["decoração","luminária"]},
   {cat:"presentes", m:"v-racas", t:"Miniatura de pet", d:"O cliente mandou a foto e reproduzimos o pet dele em miniatura, sobre uma base com o nome dele.", tags:["pet","a partir de foto","presente"]}
@@ -612,7 +637,7 @@ document.getElementById("cases").addEventListener("click", e => {
   pick(b.dataset.cat==="empresa" ? "t-empresa" : "t-ideia");
   const d = document.getElementById("q-desc");
   d.value = `Vi o projeto "${b.dataset.ref}" no portfólio e quero algo parecido: `;
-  document.getElementById("orcamento").scrollIntoView();
+  document.getElementById("pedido").scrollIntoView();
   d.focus(); d.setSelectionRange(d.value.length, d.value.length);
 });
 document.querySelectorAll("[data-type]").forEach(a => a.addEventListener("click", () => {
@@ -702,6 +727,16 @@ layers.addEventListener("mouseenter", hero.play);
 layers.addEventListener("click", hero.play);
 
 if(!STILL){
+  // Linha dos passos preenche conforme a rolagem
+  const stepsEl = document.querySelector(".steps"), stepEls = [...stepsEl.querySelectorAll(".step")];
+  const prog = () => {
+    const r = stepsEl.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (innerHeight*0.8 - r.top) / (r.height*0.9 + 1)));
+    stepsEl.style.setProperty("--p", p.toFixed(3));
+    stepEls.forEach((s,i) => s.classList.toggle("on", p >= i/(stepEls.length-1) - 0.02));
+  };
+  addEventListener("scroll", prog, {passive:true}); addEventListener("resize", prog); prog();
+
   // Inclinação 3D dos anéis seguindo o cursor
   const heroSec = document.getElementById("inicio");
   heroSec.addEventListener("mousemove", e => {
