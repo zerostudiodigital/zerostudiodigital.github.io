@@ -128,6 +128,8 @@ section.block{padding-block:80px}
 .case dl{margin:0;display:grid;gap:6px;font-size:.92rem}
 .case dt{font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .case dd{margin:0 0 4px}
+.more{margin-top:32px;display:flex;gap:16px 24px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px}
+.more p{margin:0;color:var(--muted);max-width:56ch}
 .case .body{padding:4px 6px 6px;display:flex;flex-direction:column;gap:10px;flex:1}
 .case button{margin-top:auto;align-self:flex-start;font:700 .88rem var(--f-body);background:none;border:0;padding:6px 0;cursor:pointer;color:var(--text);text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--g4)}
 
@@ -179,6 +181,7 @@ fieldset{border:0;padding:0;margin:0;display:grid;gap:8px;min-width:0}
 .out pre{margin:0;white-space:pre-wrap;font:.85rem/1.5 var(--f-mono);overflow-x:auto}
 .out .acts{display:flex;gap:10px;flex-wrap:wrap}
 .err{color:#b4235a;font-size:.85rem;font-weight:600}
+[hidden]{display:none!important}
 
 /* Loja */
 .shop{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -412,6 +415,10 @@ footer .line{background-size:200% 100%;animation:shine 6s ease-in-out infinite a
       </div>
     </div>
     <div class="grid" id="cases"></div>
+    <div class="more">
+      <p>Aqui está uma seleção. O portfólio completo, com os projetos mais recentes, fica no nosso Instagram.</p>
+      <a class="btn btn-dark" href="https://www.instagram.com/zero.studiodigital/" target="_blank" rel="noopener">Ver portfólio completo no Instagram</a>
+    </div>
   </div>
 </section>
 
@@ -476,12 +483,17 @@ footer .line{background-size:200% 100%;animation:shine 6s ease-in-out infinite a
         <div class="field"><label for="q-cores">Cores</label><input type="text" id="q-cores" placeholder="Ex.: preto e dourado"></div>
         <div class="field"><label for="q-cidade">Sua cidade</label><input type="text" id="q-cidade" placeholder="Para calcular o frete"></div>
       </div>
-      <div class="field"><label for="q-nome">Seu nome</label><input type="text" id="q-nome" autocomplete="name"></div>
+      <div class="row">
+        <div class="field"><label for="q-nome">Seu nome</label><input type="text" id="q-nome" autocomplete="name" required></div>
+        <div class="field"><label for="q-origem">Como conheceu a ZERØ?</label>
+          <select id="q-origem" required><option value="">Selecione</option><option>Instagram</option><option>TikTok</option><option>Indicação de alguém</option><option>Google</option><option>Já sou cliente</option><option value="outro">Outro</option></select></div>
+      </div>
+      <div class="field" id="q-origem-outro-f" hidden><label for="q-origem-outro">Onde conheceu?</label><input type="text" id="q-origem-outro" placeholder="Ex.: feira, evento, loja parceira"></div>
       <div class="submit">
         <button class="btn btn-dark" type="submit">Enviar pelo WhatsApp</button>
         <p>Abre o WhatsApp com a mensagem pronta para (31) 99921-0767.</p>
       </div>
-      <p class="err" id="q-err" hidden>Descreva o projeto e informe seu nome para continuar.</p>
+      <p class="err" id="q-err" hidden>Para continuar, preencha a descrição do projeto, seu nome e como conheceu a ZERØ.</p>
       <div class="out" id="q-out" hidden>
         <span class="legend">Mensagem pronta</span>
         <pre id="q-msg"></pre>
@@ -652,10 +664,16 @@ document.querySelectorAll("[data-type]").forEach(a => a.addEventListener("click"
 }));
 
 const val = id => document.getElementById(id).value.trim();
+const origemSel = document.getElementById("q-origem"), origemOutroF = document.getElementById("q-origem-outro-f");
+origemSel.addEventListener("change", () => {
+  origemOutroF.hidden = origemSel.value !== "outro";
+  if(!origemOutroF.hidden) document.getElementById("q-origem-outro").focus();
+});
+const origem = () => origemSel.value === "outro" ? (val("q-origem-outro") ? `Outro: ${val("q-origem-outro")}` : "") : origemSel.value;
 document.getElementById("qf").addEventListener("submit", e => {
   e.preventDefault();
   const err = document.getElementById("q-err");
-  if(!val("q-desc") || !val("q-nome")){ err.hidden = false; document.getElementById("q-out").hidden = true; return; }
+  if(!val("q-desc") || !val("q-nome") || !origem()){ err.hidden = false; document.getElementById("q-out").hidden = true; return; }
   err.hidden = true;
   const tipo = document.querySelector("input[name=tipo]:checked").value;
   const lines = [
@@ -668,7 +686,8 @@ document.getElementById("qf").addEventListener("submit", e => {
     `*Uso:* ${val("q-uso")}`,
     val("q-cores") ? `*Cores:* ${val("q-cores")}` : null,
     `*Prazo:* ${val("q-prazo")}`,
-    val("q-cidade") ? `*Cidade:* ${val("q-cidade")}` : null, ``,
+    val("q-cidade") ? `*Cidade:* ${val("q-cidade")}` : null,
+    `*Como conheceu a ZERØ:* ${origem()}`, ``,
     `${val("q-nome")}`
   ].filter(l => l !== null);
   const msg = lines.join("\n");
