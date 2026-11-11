@@ -128,8 +128,13 @@ section.block{padding-block:80px}
 .case dl{margin:0;display:grid;gap:6px;font-size:.92rem}
 .case dt{font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .case dd{margin:0 0 4px}
-.more{margin-top:32px;display:flex;gap:16px 24px;align-items:center;justify-content:space-between;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px}
-.more p{margin:0;color:var(--muted);max-width:56ch}
+.more{position:relative;overflow:hidden;margin-top:40px;display:flex;gap:20px 32px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--ink);color:var(--on-ink);border-radius:var(--r);padding:32px 36px}
+.more::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--grad)}
+.more > div{display:grid;gap:10px;flex:1;min-width:240px;max-width:62ch}
+.more p{margin:0;font-size:1.05rem;line-height:1.55}
+.more .eyebrow{color:var(--on-ink-muted);font-size:.74rem}
+.more .btn{flex-shrink:0}
+@media (max-width:640px){.more{padding:26px 20px}.more .btn{width:100%;justify-content:center}}
 .case .body{padding:4px 6px 6px;display:flex;flex-direction:column;gap:10px;flex:1}
 .case button{margin-top:auto;align-self:flex-start;font:700 .88rem var(--f-body);background:none;border:0;padding:6px 0;cursor:pointer;color:var(--text);text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--g4)}
 
@@ -416,8 +421,11 @@ footer .line{background-size:200% 100%;animation:shine 6s ease-in-out infinite a
     </div>
     <div class="grid" id="cases"></div>
     <div class="more">
-      <p>Aqui está uma seleção. O portfólio completo, com os projetos mais recentes, fica no nosso Instagram.</p>
-      <a class="btn btn-dark" href="https://www.instagram.com/zero.studiodigital/" target="_blank" rel="noopener">Ver portfólio completo no Instagram</a>
+      <div>
+        <p class="eyebrow">Instagram · @zero.studiodigital</p>
+        <p>Confira o portfólio completo, com os projetos mais recentes, em nosso Instagram. E não deixe de nos seguir por lá, postamos os projetos e novidades do mundo 3D todos os dias!</p>
+      </div>
+      <a class="btn btn-light" href="https://www.instagram.com/zero.studiodigital/" target="_blank" rel="noopener">Ver portfólio no Instagram</a>
     </div>
   </div>
 </section>
