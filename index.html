@@ -709,6 +709,12 @@ document.getElementById("qf").addEventListener("submit", e => {
   document.getElementById("q-out").hidden = false;
 });
 
+// Ao abrir o WhatsApp, a aba do site vai para a página de confirmação (usada como conversão no Google Ads)
+document.getElementById("q-wa").addEventListener("click", e => {
+  try { sessionStorage.setItem("zeroWaHref", e.currentTarget.href); } catch(_) {}
+  setTimeout(() => { location.href = "obrigado/"; }, 400);
+});
+
 function copyText(text, btn){
   const done = () => { const o = btn.textContent; btn.textContent = "copiado"; setTimeout(() => btn.textContent = o, 1500); };
   try { navigator.clipboard.writeText(text).then(done, () => {}); } catch(_) {}

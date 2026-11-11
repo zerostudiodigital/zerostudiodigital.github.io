@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pedido de orçamento recebido · ZERØ Studio Digital</title>
+<meta name="description" content="Seu pedido de orçamento foi enviado para a ZERØ Studio Digital pelo WhatsApp.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,600;125,800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ink:#000; --paper:#f5f5f3; --card:#fff; --text:#16161a; --muted:#5d5d66; --line:#dedde0;
+  --on-ink:#f4f4f6; --on-ink-muted:#a3a3ad;
+  --g1:#27b6d4; --g3:#f2c94c; --g4:#e9488f; --g5:#8b5cf6;
+  --grad:linear-gradient(90deg,var(--g3),var(--g4) 45%,var(--g5) 70%,var(--g1));
+  --f-display:"Archivo","Arial Black",system-ui,sans-serif;
+  --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --r:10px; color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--text);font:16px/1.6 var(--f-body);margin:0;min-height:100vh;display:flex;flex-direction:column}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--g4);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;width:100%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--ink);color:var(--on-ink);border-bottom:1px solid #1f1f23;padding-top:env(safe-area-inset-top,0px)}
+.bar{display:flex;align-items:center;min-height:64px;padding-block:8px}
+.bar img{height:38px;width:auto;display:block}
+main{flex:1;padding-block:64px}
+.box{max-width:640px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:36px}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-display);font-stretch:125%;font-weight:800;font-size:clamp(1.6rem,4vw,2.3rem);line-height:1.15;margin:10px 0 0;text-wrap:balance}
+.line{height:3px;width:120px;border-radius:3px;background:var(--grad);margin:20px 0}
+p{margin:0 0 14px}
+.muted{color:var(--muted);font-size:.95rem}
+.acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 .95rem var(--f-body);padding:13px 22px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn-dark{background:var(--ink);color:var(--on-ink)}
+.btn-dark:hover{background:#26262b}
+.btn-line{border-color:var(--line)}
+.btn-line:hover{border-color:var(--text)}
+footer{background:var(--ink);color:var(--on-ink-muted);padding-block:24px;font-size:.85rem}
+@media (max-width:560px){main{padding-block:32px}.box{padding:22px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <a href="../" aria-label="ZERØ, voltar ao site"><img src="../media/logo-zero.png" alt="ZERØ" width="152" height="38"></a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="box">
+      <p class="eyebrow">Pedido de orçamento</p>
+      <h1>Recebemos seu pedido de orçamento</h1>
+      <div class="line" role="presentation"></div>
+      <p>Sua mensagem foi aberta no WhatsApp da ZERØ, (31) 99921-0767. Confira se ela foi enviada por lá: respondemos pelo mesmo WhatsApp com o valor e o prazo.</p>
+      <p class="muted">Se o WhatsApp não abriu ou você fechou antes de enviar, use o botão abaixo para abrir a mensagem de novo.</p>
+      <div class="acts">
+        <a class="btn btn-dark" id="wa" href="https://wa.me/5531999210767" target="_blank" rel="noopener">Abrir WhatsApp</a>
+        <a class="btn btn-line" href="../#portfolio">Ver o portfólio</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 ZERØ Studio Digital · <a href="https://www.instagram.com/zero.studiodigital/" target="_blank" rel="noopener">Instagram @zero.studiodigital</a></div>
+</footer>
+
+<script>
+// Se o cliente veio do formulário, o botão reabre a mesma mensagem pronta.
+try {
+  const href = sessionStorage.getItem("zeroWaHref");
+  if (href && href.startsWith("https://wa.me/")) document.getElementById("wa").href = href;
+} catch (_) {}
+</script>
+</body>
+</html>
