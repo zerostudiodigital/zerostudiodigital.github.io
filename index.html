@@ -187,6 +187,8 @@ fieldset{border:0;padding:0;margin:0;display:grid;gap:8px;min-width:0}
 .out .acts{display:flex;gap:10px;flex-wrap:wrap}
 .err{color:#b4235a;font-size:.85rem;font-weight:600}
 [hidden]{display:none!important}
+.req{color:#b4235a;font-weight:700}
+.bad{border-color:#b4235a!important;box-shadow:0 0 0 1px #b4235a}
 
 /* Loja */
 .shop{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -470,7 +472,7 @@ footer .line{background-size:200% 100%;animation:shine 6s ease-in-out infinite a
         </div>
       </fieldset>
       <div class="field">
-        <label for="q-desc">Descreva o projeto</label>
+        <label for="q-desc">Descreva o projeto <span class="req">*</span></label>
         <textarea id="q-desc" placeholder="Ex.: 30 chaveiros com o nome de cada aluno da turma, nas cores da escola (azul e amarelo)."></textarea>
       </div>
       <div class="field">
@@ -492,14 +494,14 @@ footer .line{background-size:200% 100%;animation:shine 6s ease-in-out infinite a
         <div class="field"><label for="q-cidade">Sua cidade</label><input type="text" id="q-cidade" placeholder="Para calcular o frete"></div>
       </div>
       <div class="row">
-        <div class="field"><label for="q-nome">Seu nome</label><input type="text" id="q-nome" autocomplete="name" required></div>
-        <div class="field"><label for="q-origem">Como conheceu a ZERØ?</label>
+        <div class="field"><label for="q-nome">Seu nome <span class="req">*</span></label><input type="text" id="q-nome" autocomplete="name" required></div>
+        <div class="field"><label for="q-origem">Como conheceu a ZERØ? <span class="req">*</span></label>
           <select id="q-origem" required><option value="">Selecione</option><option>Instagram</option><option>TikTok</option><option>Indicação de alguém</option><option>Google</option><option>Já sou cliente</option><option value="outro">Outro</option></select></div>
       </div>
-      <div class="field" id="q-origem-outro-f" hidden><label for="q-origem-outro">Onde conheceu?</label><input type="text" id="q-origem-outro" placeholder="Ex.: feira, evento, loja parceira"></div>
+      <div class="field" id="q-origem-outro-f" hidden><label for="q-origem-outro">Onde conheceu? <span class="req">*</span></label><input type="text" id="q-origem-outro" placeholder="Ex.: feira, evento, loja parceira"></div>
       <div class="submit">
         <button class="btn btn-dark" type="submit">Enviar pelo WhatsApp</button>
-        <p>Abre o WhatsApp com a mensagem pronta para (31) 99921-0767.</p>
+        <p>Abre o WhatsApp com a mensagem pronta para (31) 99921-0767. Campos com <span class="req">*</span> são obrigatórios.</p>
       </div>
       <p class="err" id="q-err" hidden>Para continuar, preencha a descrição do projeto, seu nome e como conheceu a ZERØ.</p>
       <div class="out" id="q-out" hidden>
@@ -681,7 +683,10 @@ const origem = () => origemSel.value === "outro" ? (val("q-origem-outro") ? `Out
 document.getElementById("qf").addEventListener("submit", e => {
   e.preventDefault();
   const err = document.getElementById("q-err");
-  if(!val("q-desc") || !val("q-nome") || !origem()){ err.hidden = false; document.getElementById("q-out").hidden = true; return; }
+  const faltando = ["q-desc","q-nome","q-origem"].filter(id => id==="q-origem" ? !origem() : !val(id));
+  ["q-desc","q-nome","q-origem","q-origem-outro"].forEach(id => document.getElementById(id).classList.remove("bad"));
+  faltando.forEach(id => document.getElementById(id==="q-origem" && origemSel.value==="outro" ? "q-origem-outro" : id).classList.add("bad"));
+  if(faltando.length){ document.getElementById(faltando[0]==="q-origem" && origemSel.value==="outro" ? "q-origem-outro" : faltando[0]).focus(); err.hidden = false; document.getElementById("q-out").hidden = true; return; }
   err.hidden = true;
   const tipo = document.querySelector("input[name=tipo]:checked").value;
   const lines = [
